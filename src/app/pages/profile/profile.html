@@ -1,0 +1,9 @@
+<h2>Perfil</h2>
+
+<div *ngIf="user$ | async as user">
+  <p><strong>Nombre:</strong> {{ user.name }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+
+  <button (click)="logout()">Cerrar sesión</button>
+</div>
+
