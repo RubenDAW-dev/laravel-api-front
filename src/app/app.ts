@@ -1,12 +1,22 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from "./shared/navbar/navbar";
+import { AuthService } from './auth/auth-service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App implements OnInit {
   protected readonly title = signal('myfrontend');
+
+  
+  private auth = inject(AuthService);
+
+  ngOnInit(): void {
+    this.auth.loadUserIfNeeded();
+  }
+
 }

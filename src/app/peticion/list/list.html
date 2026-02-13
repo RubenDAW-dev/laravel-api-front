@@ -1,0 +1,38 @@
+<section class="container">
+
+  <h2>Peticiones</h2>
+
+  @if (cargando()) {
+    <div>Cargando...</div>
+  } @else {
+
+    <div class="grid">
+
+      @for (p of peticiones(); track p.id) {
+
+        <article class="card">
+
+          <img [src]="getImg(p)" class="thumb" />
+
+          <h3>
+            <a [routerLink]="['/peticiones', p.id]">
+              {{ p.titulo }}
+            </a>
+          </h3>
+
+          <p>{{ p.descripcion }}</p>
+
+          <div class="actions">
+            <a [routerLink]="['/peticiones', p.id]">Ver</a>
+            <button (click)="eliminar(p.id)">Borrar</button>
+          </div>
+
+        </article>
+
+      }
+
+    </div>
+
+  }
+
+</section>

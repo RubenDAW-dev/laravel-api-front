@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth/auth-service';
@@ -12,10 +12,12 @@ import { AuthService } from '../../auth/auth-service';
 })
 export class LoginComponent {
 
+  errorMsg = signal<string | null>(null);
+
   email = '';
   password = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) { }
 
   login() {
     this.auth.login({ email: this.email, password: this.password })

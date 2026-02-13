@@ -1,0 +1,52 @@
+<section class="container">
+  @if (cargando()) {
+    <p>Cargando...</p>
+  } @else {
+    @if (error(); as err) {
+      <div class="error">{{ err }}</div>
+    } @else {
+      @if (peticion(); as p) {
+        <article class="detalle">
+          <img [src]="getImg()" alt="imagen" class="cover">
+          <div class="body">
+            <h2>{{ p.titulo }}</h2>
+
+            <p class="dest"><strong>Destinatario:</strong> {{ p.destinatario }}</p>
+            <p class="desc">{{ p.descripcion }}</p>
+
+            <p class="meta">
+              <strong>Categoría:</strong> {{ p.categoria?.nombre ?? ('#' + p.categoria_id) }}
+              &nbsp;•&nbsp;
+              <strong>Firmantes:</strong> {{ p.firmantes ?? 0 }}
+              &nbsp;•&nbsp;
+              <strong>Autor:</strong> {{ p.user?.name ?? ('user #' + p.user_id) }}
+            </p>
+
+            @if (toast(); as t) { <div class="info">{{ t }}</div> }
+
+            <div class="actions">
+              <button type="button"
+                      (click)="firmar()"
+                      [disabled]="firmando() || yaFirmada()">
+                @if (yaFirmada()) { Ya firmaste }
+                @else if (firmando()) { Firmando… }
+                @else { Firmar }
+              </button>
+
+              @if (esDueno()) {
+                <a [routerLink]="['/peticiones/edit', p.id]">Editar</a>
+                <button type="button" class="danger" (click)="borrar()">Borrar</button>
+              }
+            </div>
+
+            <div class="back">
+              <a routerLink="/peticiones">← Volver al listado</a>
+            </div>
+          </div>
+        </article>
+      } @else {
+        <p>No se encontró la petición.</p>
+      }
+    }
+  }
+</section>

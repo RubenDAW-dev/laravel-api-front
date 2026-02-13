@@ -1,0 +1,25 @@
+<nav class="navbar">
+  <div class="left">
+    <a routerLink="/" class="brand">Change</a>
+    <a routerLink="/peticiones">Ver Peticiones</a>
+
+    @if (isLoggedIn()) {
+    <a routerLink="/peticiones/create">Iniciar una petición</a>
+    }
+    @if (isLoggedIn()) {
+    <a routerLink="/mispeticiones">Mis peticiones</a>
+    }
+  </div>
+
+  <div class="right">
+
+    @if (isLoggedIn()) {
+    <span class="hello">Hola, {{ currentUser()?.name }} 👋</span>
+    <a routerLink="/profile">Perfil</a>
+    <button type="button" (click)="logout()">Salir</button>
+    } @else {
+    <a routerLink="/login">Entrar</a>
+    <a routerLink="/register">Registrarse</a>
+    }
+  </div>
+</nav>

@@ -1,45 +1,38 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from './auth-service';
-import { catchError, switchMap, throwError, of } from 'rxjs';
+import { catchError, switchMap, throwError } from 'rxjs';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
   const token = auth.getAccessToken();
-
-  if (token) {
-    req = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
-    });
+  const isApiCall = req.url.startsWith('http://localhost:8000/api');
+  if (token && isApiCall) {
+    req = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
   }
 
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
+      console.error('[HTTP] error', req.url, err.status, err.error);
+      const isLogin = req.url.endsWith('/login');
+      const isRefresh = req.url.endsWith('/refresh');
 
-      if (req.url.includes('/refresh') || req.url.includes('/login')) {
-        return auth.logout().pipe(
-          catchError(() => of(null)),
-          switchMap(() => throwError(() => err))
-        );
-      }
+      if (isLogin && err.status === 401) return throwError(() => err);
+      if (isRefresh) { auth.logout().subscribe(); return throwError(() => err); }
 
-      if (err.status === 401) {
+      if (err.status === 401 && isApiCall) {
+        if (!auth.isAuthenticated()) { auth.logout().subscribe(); return throwError(() => err); }
+        console.log('[HTTP] trying refresh…');
         return auth.refreshToken().pipe(
-          switchMap(res => {
-            const retryReq = req.clone({
-              setHeaders: { Authorization: `Bearer ${res.access_token}` }
-            });
-            return next(retryReq);
+          switchMap(() => {
+            const newToken = auth.getAccessToken();
+            console.log('[HTTP] retry with new token', req.url);
+            const retried = req.clone({ setHeaders: newToken ? { Authorization: `Bearer ${newToken}` } : {} });
+            return next(retried);
           }),
-          catchError(refreshErr => {
-            return auth.logout().pipe(
-              catchError(() => of(null)),
-              switchMap(() => throwError(() => refreshErr))
-            );
-          })
+          catchError((refreshErr) => { console.error('[HTTP] refresh FAILED'); auth.logout().subscribe(); return throwError(() => refreshErr); })
         );
       }
-
       return throwError(() => err);
     })
   );

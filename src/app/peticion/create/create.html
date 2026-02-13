@@ -1,0 +1,46 @@
+<section class="container">
+
+  <h2>Crear petición</h2>
+
+  @if (errorMsg(); as e) {
+    <div class="error">{{ e }}</div>
+  }
+
+  <form (ngSubmit)="submit()" [formGroup]="form" novalidate>
+
+    <div class="grid">
+      <div class="left">
+        <img [src]="previewUrl()" class="preview" alt="preview" />
+        <input type="file" (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf" />
+      </div>
+
+      <div class="right">
+        <label>Título</label>
+        <input formControlName="titulo" placeholder="Título de la petición" />
+
+        <label>Descripción</label>
+        <textarea formControlName="descripcion" rows="6" placeholder="Describe tu petición..."></textarea>
+
+        <label>Destinatario</label>
+        <input formControlName="destinatario" placeholder="¿A quién va dirigida?" />
+
+        <label>Categoría</label>
+        <select formControlName="categoria_id">
+          <option value="">Selecciona categoría</option>
+          <option value="1">Medio Ambiente</option>
+          <option value="2">Política</option>
+          <option value="3">Derechos Humanos</option>
+          <option value="4">Animales</option>
+          <option value="5">Educación</option>
+        </select>
+
+        <div class="actions">
+          <button type="submit" [disabled]="form.invalid || loading() || !previewUrl()"> 
+            @if (loading()) { Guardando… } @else { Crear petición }
+          </button>
+          <a routerLink="/peticiones" class="secondary">Cancelar</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,59 @@
+<!-- src/app/peticion/edit/edit.html -->
+<section class="container">
+
+  <h2>Editar petición</h2>
+
+  @if (errorMsg(); as e) {
+    <div class="error">{{ e }}</div>
+  }
+
+  @if (loading()) {
+    <p>Cargando…</p>
+  } @else {
+
+    @if (peticion(); as p) {
+
+      <form (ngSubmit)="submit()" [formGroup]="form" novalidate>
+
+        <div class="grid">
+          <div class="left">
+            <img [src]="previewUrl()" class="preview" alt="preview" />
+            <input type="file" (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf" />
+          </div>
+
+          <div class="right">
+            <label>Título</label>
+            <input formControlName="titulo" placeholder="Título de la petición" />
+
+            <label>Descripción</label>
+            <textarea formControlName="descripcion" rows="6" placeholder="Describe tu petición..."></textarea>
+
+            <label>Destinatario</label>
+            <input formControlName="destinatario" placeholder="¿A quién va dirigida?" />
+
+            <label>Categoría</label>
+            <select formControlName="categoria_id">
+              <option value="">Selecciona categoría</option>
+              <!-- Sustituye por listado real si expones /api/categorias -->
+              <option value="1">Medio Ambiente</option>
+              <option value="2">Política</option>
+              <option value="3">Derechos Humanos</option>
+              <option value="4">Animales</option>
+              <option value="5">Educación</option>
+            </select>
+
+            <div class="actions">
+              <button type="submit" [disabled]="form.invalid || loading()">
+                @if (loading()) { Guardando… } @else { Guardar cambios }
+              </button>
+              <a routerLink="/peticiones" class="secondary">Cancelar</a>
+            </div>
+          </div>
+        </div>
+      </form>
+
+    } @else {
+      <p>No se encontró la petición.</p>
+    }
+  }
+</section>

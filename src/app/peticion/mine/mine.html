@@ -1,0 +1,30 @@
+<section class="container">
+  <h2>Mis peticiones</h2>
+
+  @if (cargando()) {
+    <p>Cargando…</p>
+  } @else {
+    @if (errorMsg(); as e) {
+      <div class="error">{{ e }}</div>
+    } @else {
+      @if (peticiones().length === 0) {
+        <p>No tienes peticiones todavía.</p>
+        <a routerLink="/peticiones/create">Crear petición</a>
+      } @else {
+        <div class="grid">
+          @for (p of peticiones(); track p.id) {
+            <article class="card">
+              <img [src]="getImg(p)" class="thumb" />
+              <h3><a [routerLink]="['/peticiones', p.id]">{{ p.titulo }}</a></h3>
+              <p>{{ p.descripcion }}</p>
+              <div class="actions">
+                <a [routerLink]="['/peticiones/edit', p.id]">Editar</a>
+                <a [routerLink]="['/peticiones', p.id]">Ver</a>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    }
+  }
+</section>

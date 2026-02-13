@@ -1,16 +1,20 @@
-<h2>Login</h2>
+<section class="max-w-md mx-auto">
+  <h2 class="text-2xl font-semibold mb-4">Entrar</h2>
 
-<form (ngSubmit)="login()">
-  <label>Email</label>
-  <input [(ngModel)]="email" name="email" type="email" required />
+  @if (errorMsg()) { <div class="error mb-3">{{ errorMsg() }}</div> }
 
-  <label>Password</label>
-  <input [(ngModel)]="password" name="password" type="password" required />
+  <form (ngSubmit)="login()" autocomplete="off" novalidate>
+    <label class="font-semibold">Email</label>
+    <input name="email" [(ngModel)]="email" type="email"
+      class="border border-gray-300 rounded-md px-3 py-2 w-full mb-3" />
 
-  <button type="submit">Entrar</button>
-</form>
+    <label class="font-semibold">Contraseña</label>
+    <input name="password" [(ngModel)]="password" type="password" autocomplete="new-password"
+      class="border border-gray-300 rounded-md px-3 py-2 w-full mb-4" />
 
-<p>
-  ¿No tienes cuenta?
-  <a routerLink="/register">Regístrate</a>
-</p>
+    <div class="flex gap-2">
+      <button type="submit" class="btn btn-primary">Entrar</button>
+      <a routerLink="/register" class="btn">Registrarse</a>
+    </div>
+  </form>
+</section>

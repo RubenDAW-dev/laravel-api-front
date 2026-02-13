@@ -1,20 +1,24 @@
-<h2>Registro</h2>
+<section class="max-w-md mx-auto">
+  <h2 class="text-2xl font-semibold mb-4">Registrarse</h2>
 
-<form (ngSubmit)="register()" #form="ngForm">
+  @if (errorMsg()) { <div class="error mb-3">{{ errorMsg() }}</div> }
 
-  <label>Nombre</label>
-  <input name="name" [(ngModel)]="formData.name" required />
+  <form (ngSubmit)="register()" autocomplete="off" novalidate>
+    <label class="font-semibold">Nombre</label>
+    <input [(ngModel)]="formData.name" name="name"
+           class="border border-gray-300 rounded-md px-3 py-2 w-full mb-3" />
 
-  <label>Email</label>
-  <input name="email" [(ngModel)]="formData.email" required type="email" />
+    <label class="font-semibold">Email</label>
+    <input [(ngModel)]="formData.email" name="email" type="email"
+           class="border border-gray-300 rounded-md px-3 py-2 w-full mb-3" />
 
-  <label>Password</label>
-  <input name="password" [(ngModel)]="formData.password" required type="password" />
+    <label class="font-semibold">Contraseña</label>
+    <input [(ngModel)]="formData.password" name="password" type="password"
+           class="border border-gray-300 rounded-md px-3 py-2 w-full mb-4" />
 
-  <button type="submit" [disabled]="form.invalid">Crear cuenta</button>
-</form>
-
-<p>
-  ¿Ya tienes cuenta?
-  <a routerLink="/login">Inicia sesión</a>
-</p>
+    <div class="flex gap-2">
+      <button type="submit" class="btn btn-primary">Crear cuenta</button>
+      <a routerLink="/login" class="btn">Ya tengo cuenta</a>
+    </div>
+  </form>
+</section>
