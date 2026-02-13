@@ -1,46 +1,70 @@
-<section class="container">
+<section class="max-w-3xl mx-auto px-6 py-12 bg-white rounded shadow">
+  <h2 class="text-2xl font-bold mb-6 text-center">Crear Petición</h2>
 
-  <h2>Crear petición</h2>
-
+  <!-- Mensaje de error -->
   @if (errorMsg(); as e) {
-    <div class="error">{{ e }}</div>
+    <div class="text-red-600 text-sm mb-4 text-center">{{ e }}</div>
   }
 
-  <form (ngSubmit)="submit()" [formGroup]="form" novalidate>
+  <form (ngSubmit)="submit()" [formGroup]="form" novalidate class="flex flex-col gap-6">
 
-    <div class="grid">
-      <div class="left">
-        <img [src]="previewUrl()" class="preview" alt="preview" />
-        <input type="file" (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf" />
-      </div>
-
-      <div class="right">
-        <label>Título</label>
-        <input formControlName="titulo" placeholder="Título de la petición" />
-
-        <label>Descripción</label>
-        <textarea formControlName="descripcion" rows="6" placeholder="Describe tu petición..."></textarea>
-
-        <label>Destinatario</label>
-        <input formControlName="destinatario" placeholder="¿A quién va dirigida?" />
-
-        <label>Categoría</label>
-        <select formControlName="categoria_id">
-          <option value="">Selecciona categoría</option>
-          <option value="1">Medio Ambiente</option>
-          <option value="2">Política</option>
-          <option value="3">Derechos Humanos</option>
-          <option value="4">Animales</option>
-          <option value="5">Educación</option>
-        </select>
-
-        <div class="actions">
-          <button type="submit" [disabled]="form.invalid || loading() || !previewUrl()"> 
-            @if (loading()) { Guardando… } @else { Crear petición }
-          </button>
-          <a routerLink="/peticiones" class="secondary">Cancelar</a>
-        </div>
-      </div>
+    <!-- Preview de imagen -->
+    <div class="flex justify-center mb-4">
+      <img [src]="previewUrl()" class="w-40 h-40 object-cover rounded-full border border-gray-200 shadow-sm" alt="preview" />
     </div>
+
+    <div class="flex justify-center mb-6">
+      <input type="file" (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf"
+             class="border rounded px-3 py-2 cursor-pointer hover:bg-gray-100 transition" />
+    </div>
+
+    <!-- Título -->
+    <div>
+      <label class="block font-semibold mb-1">Título</label>
+      <input formControlName="titulo" placeholder="Título de la petición" 
+             class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+
+    <!-- Descripción -->
+    <div>
+      <label class="block font-semibold mb-1">Descripción</label>
+      <textarea formControlName="descripcion" rows="5" placeholder="Describe tu petición..." 
+                class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+    </div>
+
+    <!-- Destinatario -->
+    <div>
+      <label class="block font-semibold mb-1">Destinatario</label>
+      <input formControlName="destinatario" placeholder="¿A quién va dirigida?" 
+             class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+
+    <!-- Categoría -->
+    <div>
+      <label class="block font-semibold mb-1">Categoría</label>
+      <select formControlName="categoria_id" 
+              class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <option value="">Selecciona categoría</option>
+        <option value="1">Medio Ambiente</option>
+        <option value="2">Política</option>
+        <option value="3">Derechos Humanos</option>
+        <option value="4">Animales</option>
+        <option value="5">Educación</option>
+      </select>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-between mt-6">
+      <button type="submit" [disabled]="form.invalid || loading() || !fileToUpload"
+              class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:-translate-y-0.5 disabled:opacity-50">
+        @if (loading()) { Guardando… } @else { Crear Petición }
+      </button>
+
+      <a routerLink="/peticiones" 
+         class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded transition-transform transform hover:-translate-y-0.5">
+        Cancelar
+      </a>
+    </div>
+
   </form>
 </section>

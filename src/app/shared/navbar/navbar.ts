@@ -14,14 +14,25 @@ export class NavbarComponent implements OnInit {
   private auth = inject(AuthService);
   router = inject(Router);
 
-  isLoggedIn = this.auth.isLoggedIn;
-  currentUser = this.auth.currentUser;
+  menuOpen = false;
 
-ngOnInit(): void {
-  this.auth.loadUserIfNeeded();
-}
+
+  ngOnInit(): void {
+    this.auth.loadUserIfNeeded();
+  }
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 
   logout() {
     this.auth.logout().subscribe();
   }
+  isLoggedIn(): boolean {
+    return this.auth.isLoggedIn();
+  }
+
+  currentUser() {
+    return this.auth.currentUser();
+  }
+
 }

@@ -1,9 +1,23 @@
-<h2>Perfil</h2>
+<section class="max-w-md mx-auto px-6 py-12 bg-white rounded shadow text-center">
 
-@if (user$ | async; as user) {
-  <p><strong>Nombre:</strong> {{ user.name }}</p>
-  <p><strong>Email:</strong> {{ user.email }}</p>
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">Perfil</h2>
 
-  <button (click)="logout()">Cerrar sesión</button>
-}
+  @if (user$ | async; as user) {
 
+    <!-- Información del usuario -->
+    <div class="mb-6 text-left">
+      <p class="mb-2"><strong>Nombre:</strong> {{ user.name }}</p>
+      <p class="mb-2"><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+
+    <!-- Botón de cerrar sesión -->
+    <button (click)="logout()"
+            class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:-translate-y-0.5">
+      Cerrar sesión
+    </button>
+
+  } @else {
+    <p class="text-gray-500">Cargando información...</p>
+  }
+
+</section>

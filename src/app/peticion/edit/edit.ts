@@ -1,4 +1,3 @@
-// src/app/peticion/edit/edit.ts
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -14,86 +13,85 @@ import { AuthService } from '../../auth/auth-service';
   styleUrls: ['./edit.css']
 })
 export class EditComponent {
-  private fb = inject(FormBuilder);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private service = inject(PeticionService);
-  private auth = inject(AuthService);
+  public fb = inject(FormBuilder);
+  public route = inject(ActivatedRoute);
+  public router = inject(Router);
+  public service = inject(PeticionService);
+  public auth = inject(AuthService);
 
-  loading = signal(false);
-  errorMsg = signal<string | null>(null);
+  public loading = signal(false);
+  public errorMsg = signal<string | null>(null);
 
-  // Previsualización
-  previewUrl = signal<string>('assets/no-image.png');
-  private fileToUpload: File | null = null;
+  public previewUrl = signal<string>('assets/no-image.png');
+  public fileToUpload: File | null = null;
 
-  // Caché de la petición que estamos editando
-  peticion = signal<any | null>(null);
+  public peticion = signal<any | null>(null);
+  public id = signal<number | null>(null);
 
-  // ID de ruta
-  id = signal<number | null>(null);
-
-  form = this.fb.group({
+  public form = this.fb.group({
     titulo: ['', [Validators.required]],
     descripcion: ['', [Validators.required]],
     destinatario: ['', [Validators.required]],
     categoria_id: ['', [Validators.required]]
   });
 
-  ngOnInit(): void {
-    // Rehidratar usuario por si entramos directo con F5 (no imprescindible aquí, pero consistente)
-    this.auth.loadUserIfNeeded();
+ngOnInit(): void {
+  this.auth.loadUserIfNeeded();
 
-    const raw = this.route.snapshot.paramMap.get('id');
-    const num = Number(raw);
-    if (!raw || Number.isNaN(num)) {
-      this.errorMsg.set('ID no válido');
-      return;
-    }
-    this.id.set(num);
-
-    // Cargar datos
-    this.loading.set(true);
-    this.service.getById(num).subscribe({
-      next: (data) => {
-        this.peticion.set(data);
-
-        // Rellenar formulario
-        this.form.patchValue({
-          titulo: data.titulo ?? '',
-          descripcion: data.descripcion ?? '',
-          destinatario: data.destinatario ?? '',
-          categoria_id: String(data.categoria_id ?? '')
-        });
-
-        // Previsualizar imagen actual (si hay)
-        const path = data?.files?.[0]?.path;
-        this.previewUrl.set(path ? `http://localhost:8000/storage/${path}` : 'assets/no-image.png');
-
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error('No se pudo cargar la petición', err);
-        this.errorMsg.set('No se pudo cargar la petición');
-        this.loading.set(false);
-      }
-    });
+  const raw = this.route.snapshot.paramMap.get('id');
+  const num = Number(raw);
+  if (!raw || Number.isNaN(num)) {
+    this.errorMsg.set('ID no válido');
+    return;
   }
+  this.id.set(num);
 
-  onFileSelected(ev: Event) {
+  this.loading.set(true);
+  this.service.getById(num).subscribe({
+    next: (data) => {
+      this.peticion.set(data);
+
+      // Rellenar formulario
+      this.form.patchValue({
+        titulo: data.titulo ?? '',
+        descripcion: data.descripcion ?? '',
+        destinatario: data.destinatario ?? '',
+        categoria_id: String(data.categoria_id ?? '')
+      });
+
+      //  de imagen segura
+      const filePath = data?.files?.[0]?.path;
+      if (filePath) {
+        const finalPath = filePath.startsWith('/storage') ? filePath : `/storage/${filePath}`;
+        this.previewUrl.set(`http://localhost:8000${finalPath}`);
+      } else {
+        this.previewUrl.set('assets/no-image.png');
+      }
+
+      this.loading.set(false);
+    },
+    error: (err) => {
+      console.error('No se pudo cargar la petición', err);
+      this.errorMsg.set('No se pudo cargar la petición');
+      this.loading.set(false);
+    }
+  });
+}
+
+
+  public onFileSelected(ev: Event) {
     const input = ev.target as HTMLInputElement;
     const file = input.files?.[0];
     if (!file) return;
 
     this.fileToUpload = file;
 
-    // Previsualización inmediata de la nueva imagen
     const reader = new FileReader();
     reader.onload = () => this.previewUrl.set(reader.result as string);
     reader.readAsDataURL(file);
   }
 
-  submit() {
+  public submit() {
     this.errorMsg.set(null);
     const currentId = this.id();
     if (!currentId) {
@@ -111,7 +109,6 @@ export class EditComponent {
     fd.append('destinatario', this.form.value.destinatario!);
     fd.append('categoria_id', this.form.value.categoria_id!);
 
-    // Solo enviamos 'file' si el usuario ha elegido una nueva imagen
     if (this.fileToUpload) {
       fd.append('file', this.fileToUpload);
     }
@@ -120,7 +117,6 @@ export class EditComponent {
     this.service.update(currentId, fd).subscribe({
       next: () => this.router.navigate(['/peticiones']),
       error: (err) => {
-        // 403: no autorizado (no eres el dueño); 422: validación; otros: 500
         const msg =
           err?.error?.message ||
           Object.values(err?.error?.errors || {})?.flat()?.[0] ||

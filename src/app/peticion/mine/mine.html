@@ -1,30 +1,61 @@
-<section class="container">
-  <h2>Mis peticiones</h2>
+<section class="max-w-7xl mx-auto px-6 py-12">
+  <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Mis Peticiones</h2>
 
   @if (cargando()) {
-    <p>Cargando…</p>
+    <p class="text-center text-gray-500">Cargando…</p>
   } @else {
+
     @if (errorMsg(); as e) {
-      <div class="error">{{ e }}</div>
+      <div class="text-center text-red-600 mb-4">{{ e }}</div>
     } @else {
+
       @if (peticiones().length === 0) {
-        <p>No tienes peticiones todavía.</p>
-        <a routerLink="/peticiones/create">Crear petición</a>
+        <p class="text-center text-gray-600 mb-4">No tienes peticiones todavía.</p>
+        <div class="text-center">
+          <a routerLink="/peticiones/create" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+            Crear Petición
+          </a>
+        </div>
       } @else {
-        <div class="grid">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           @for (p of peticiones(); track p.id) {
-            <article class="card">
-              <img [src]="getImg(p)" class="thumb" />
-              <h3><a [routerLink]="['/peticiones', p.id]">{{ p.titulo }}</a></h3>
-              <p>{{ p.descripcion }}</p>
-              <div class="actions">
-                <a [routerLink]="['/peticiones/edit', p.id]">Editar</a>
-                <a [routerLink]="['/peticiones', p.id]">Ver</a>
+
+            <article class="bg-white rounded-lg shadow p-6 flex flex-col items-center text-center transition-transform transform hover:-translate-y-1 hover:shadow-lg">
+
+              <!-- Imagen circular -->
+              <img [src]="getImg(p)" alt="{{ p.titulo }}" 
+                   class="w-32 h-32 object-cover rounded-full mb-4 border border-gray-200 shadow-sm" />
+
+              <!-- Título -->
+              <h3 class="text-lg font-bold text-gray-800 mb-2">
+                <a [routerLink]="['/peticiones', p.id]" class="hover:text-blue-600 hover:underline">
+                  {{ p.titulo }}
+                </a>
+              </h3>
+
+              <!-- Descripción -->
+              <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ p.descripcion }}</p>
+
+              <!-- Acciones -->
+              <div class="flex gap-4">
+                <a [routerLink]="['/peticiones/edit', p.id]" 
+                   class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded transition-transform transform hover:-translate-y-0.5">
+                  Editar
+                </a>
+                <a [routerLink]="['/peticiones', p.id]" 
+                   class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-transform transform hover:-translate-y-0.5">
+                  Ver
+                </a>
               </div>
+
             </article>
+
           }
         </div>
+
       }
     }
+
   }
 </section>

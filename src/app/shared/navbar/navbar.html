@@ -1,25 +1,74 @@
-<nav class="navbar">
-  <div class="left">
-    <a routerLink="/" class="brand">Change</a>
-    <a routerLink="/peticiones">Ver Peticiones</a>
+<nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16 items-center">
 
-    @if (isLoggedIn()) {
-    <a routerLink="/peticiones/create">Iniciar una petición</a>
-    }
-    @if (isLoggedIn()) {
-    <a routerLink="/mispeticiones">Mis peticiones</a>
-    }
-  </div>
+      <!-- IZQUIERDA -->
+      <div class="flex items-center space-x-8">
 
-  <div class="right">
+        <!-- Logo -->
+        <a routerLink="/" 
+           class="text-xl font-bold text-gray-800 dark:text-gray-200">
+          Change
+        </a>
 
-    @if (isLoggedIn()) {
-    <span class="hello">Hola, {{ currentUser()?.name }} 👋</span>
-    <a routerLink="/profile">Perfil</a>
-    <button type="button" (click)="logout()">Salir</button>
-    } @else {
-    <a routerLink="/login">Entrar</a>
-    <a routerLink="/register">Registrarse</a>
-    }
+        <!-- Links -->
+        <div class="hidden sm:flex space-x-6 text-sm font-medium">
+
+          <a routerLink="/peticiones"
+             class="text-gray-600 hover:text-gray-900 transition">
+            Ver Peticiones
+          </a>
+
+          @if (isLoggedIn()) {
+            <a routerLink="/peticiones/create"
+               class="text-gray-600 hover:text-gray-900 transition">
+              Iniciar una petición
+            </a>
+
+            <a routerLink="/mispeticiones"
+               class="text-gray-600 hover:text-gray-900 transition">
+              Mis peticiones
+            </a>
+          }
+
+        </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="flex items-center space-x-4 text-sm">
+
+        @if (isLoggedIn()) {
+
+          <span class="text-gray-500">
+            Hola, {{ currentUser()?.name }} 👋
+          </span>
+
+          <a routerLink="/profile"
+             class="text-gray-600 hover:text-gray-900 transition">
+            Perfil
+          </a>
+
+          <button type="button"
+                  (click)="logout()"
+                  class="px-3 py-1 rounded-md bg-red-500 text-white hover:bg-red-600 transition">
+            Salir
+          </button>
+
+        } @else {
+
+          <a routerLink="/login"
+             class="text-gray-600 hover:text-gray-900 transition">
+            Entrar
+          </a>
+
+          <a routerLink="/register"
+             class="px-3 py-1 rounded-md bg-yellow-400 text-black hover:bg-yellow-500 transition">
+            Registrarse
+          </a>
+
+        }
+
+      </div>
+    </div>
   </div>
 </nav>

@@ -15,13 +15,14 @@ export class CreateComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private service = inject(PeticionService);
+  
 
   loading = signal(false);
   errorMsg = signal<string | null>(null);
 
   // Vista previa de imagen
   previewUrl = signal<string>('assets/no-image.png');
-  private fileToUpload: File | null = null;
+  fileToUpload: File | null = null;
 
   form = this.fb.group({
     titulo: ['', [Validators.required]],

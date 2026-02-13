@@ -1,162 +1,485 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+header {
+  padding: 0.5rem 1rem;
+  margin: 0;
+  border-bottom: 1px solid #e1dde9;
+  background-color: #fff;
+}
 
-/* Estilos generales */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f6f9;
-    margin: 0;
+.icoHeader {
+  height: 30px;
+  width: auto;
+}
+
+.peticion {
+  background-color: transparent;
+  border: 1px solid #ced4da;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.peticion:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+}
+
+.search-icon-btn {
+  color: #555;
+  font-size: 1.2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.search-icon-btn:hover {
+  color: #000;
+}
+
+.burger-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.navbar-toggler {
+  border: none;
+  padding: 0;
+}
+
+.profile-icon {
+  font-size: 1.8rem;
+  color: #555;
+}
+
+.profile-icon:hover {
+  color: #000;
+}
+
+.custom-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 250px;
+  background-color: #fff;
+  border: 1px solid #e1dde9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: block !important;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.custom-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.custom-menu .nav-link {
+  padding: 0.75rem 1rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.custom-menu .nav-link:last-child {
+  border-bottom: none;
+}
+
+.custom-menu .nav-link:hover {
+  background-color: #f8f9fa;
+  color: #007bff;
+}
+
+@media (min-width: 992px) {
+
+  .navbar-toggler,
+  .search-icon-btn {
+    display: none;
+  }
+
+  .custom-menu {
+    position: static;
+    width: auto;
+    background: none;
+    border: none;
+    box-shadow: none;
+    display: flex !important;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    margin-left: 2rem;
+  }
+
+  .custom-menu .navbar-nav {
+    flex-direction: row;
+  }
+
+  .custom-menu .nav-item {
+    margin: 0 0.75rem;
+  }
+
+  .custom-menu .nav-link {
+    border-bottom: none;
     padding: 0;
     color: #333;
+    font-weight: 600;
+  }
+
+  .custom-menu .nav-link:hover {
+    background: none;
+    color: #e61c23;
+  }
 }
 
-/* Sidebar */
-nav {
-    background-color: #1f2937;
-    min-height: 10vh;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+.TextoGrandeLanding {
+  font-size: 5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 5.5rem;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
-nav h4 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    font-weight: bold;
-    color: #fff;
+.TextoSecundarioLanding {
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 2.5rem;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.buttonAmarillo,
+.buttonBlanco {
+  display: inline-block;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  border: 2px solid black;
+  cursor: pointer;
+  margin: 0 0.5rem;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
 }
 
-nav ul li {
-    margin-bottom: .5rem;
+.buttonAmarillo {
+  background-color: #ffd900;
+  border-color: #ffd900;
+  color: black;
 }
 
-nav ul li a {
-    display: block;
-    padding: .7rem 1rem;
-    border-radius: 6px;
-    text-decoration: none;
-    color: #d1d5db;
-    /* gris claro */
-    transition: background-color 0.3s, color 0.3s;
+.buttonBlanco {
+  background-color: white;
+  border-color: black;
+  color: black;
 }
 
-nav ul li a:hover {
-    background-color: #374151;
-    /* gris más claro */
-    color: #fff;
+/* MAIN CONTENT */
+.main-content {
+  position: relative;
+  width: 100%;
+  padding: 5rem 0;
+  overflow: visible;
+  z-index: 1;
+  /* por defecto en móvil y hasta 1664px */
+  margin-top: 0;
+  /* debajo normal */
+  min-height: auto;
+  /* altura automática */
 }
 
-/* Área principal */
-main {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    margin: 1rem;
-    padding: 2rem;
+.petition-item {
+  position: absolute;
+  width: 150px;
+  text-align: center;
+  z-index: 1;
 }
 
-/* Títulos dentro del main */
-main h1,
-main h2,
-main h3 {
-    color: #1f2937;
-    margin-bottom: 1rem;
+.petition-item img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Botones genéricos */
-.btn {
-    display: inline-block;
-    padding: .6rem 1.2rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.3s, transform 0.2s;
+.petition-item p {
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
 }
 
-.btn-primary {
-    background-color: #2563eb;
-    color: #fff;
+.petition-item .petition-title {
+  font-weight: 700;
+  color: #333;
+  margin-top: 0.5rem;
 }
 
-.btn-primary:hover {
-    background-color: #1d4ed8;
-    transform: translateY(-2px);
+.petition-item .petition-count {
+  font-size: 0.85rem;
+  color: #555;
 }
 
-.btn-danger {
-    background-color: #dc2626;
-    color: #fff;
+.petition-1 {
+  top: 20px;
+  left: 20%;
 }
 
-.btn-danger:hover {
-    background-color: #b91c1c;
-    transform: translateY(-2px);
+.petition-2 {
+  top: 20px;
+  right: 20%;
+}
+
+.petition-3 {
+  top: 350px;
+  left: 21%;
+}
+
+.petition-4 {
+  top: 350px;
+  right: 21%;
+}
+
+.petition-5 {
+  top: 600px;
+  left: 45%;
+}
+
+@media (max-width: 1665px) {
+
+  .petition-1,
+  .petition-2,
+  .petition-3,
+  .petition-4,
+  .petition-5 {
+    display: none !important;
+  }
+}
+
+/* SOLO en pantallas muy grandes */
+@media (min-width: 1665px) {
+  .main-content {
+    z-index: 3;
+    min-height: 950px;
+    /* reserva espacio para las imágenes absolutas */
+    margin-top: -450px;
+    /* superposición sobre el bloque anterior */
+  }
+
+  .carruselMovil {
+    display: none;
+  }
+}
+
+.carousel-item {
+  border: none !important;
+}
+
+/*Termina aqui*/
+
+.landingDiv2 {
+  background-color: #faf8fd;
+}
+
+.landingDiv2 h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 2.5rem;
+}
+
+.numAsideImg {
+  max-width: 50px;
+  height: auto;
+}
+
+.btn.btn-secondary.btn-lg.dropdown-toggle {
+  background-color: transparent;
+  border-style: none;
+  color: blue;
+}
+
+.h2Causas h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 2.5rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* --- Sección de Footer --- */
+.site-footer {
+  font-size: 0.9rem;
+  background-color: #fff;
+}
+
+.site-footer h5 {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.site-footer ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+.site-footer ul li {
+  margin-bottom: 0.5rem;
+}
+
+.site-footer ul li a {
+  text-decoration: none;
+  color: #212529;
+}
+
+.site-footer ul li a:hover {
+  text-decoration: underline;
+}
+
+.botonContribuir {
+  outline: 2px solid #0000;
+  outline-offset: 2px;
+  padding: 16px 24px;
+  border-radius: 7px;
+  border: 1px solid black;
+}
+
+.botonContribuir a {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.5rem;
+}
+
+/* Emiezo con el list of petitions */
+.tituloListPetitions {
+  font-size: 5rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 5.5rem;
+  padding-top: 5rem;
+}
+
+.parrafoListPetitions {
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 2rem;
+}
+
+.inputTextoListPetitions {
+  margin-top: 0.1rem;
+  padding-bottom: 1.3rem !important;
+
+}
+
+.buttonAmarillo2 {
+  display: inline-block;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  border: 2px solid black;
+  cursor: pointer;
+  background-color: #ffd900;
+  border-color: #ffd900;
+  color: black;
+}
+
+.subtitulosDescubre {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 2rem;
+}
+
+.botonesList {
+  border: 0;
+  background-color: white;
+  padding-left: 4rem !important;
+  padding-right: 4rem !important;
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.botonesList img {
+  width: 48px;
+  height: 48px;
+}
+
+.h2CrearPetition {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 2.5rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.pCrearPeticion {
+  box-sizing: border-box;
+  margin: 0.5rem 0px 0px;
+  min-width: 0px;
+  font-family: Commissioner, "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
+  font-size: 18px;
+  line-height: 28px;
 }
 
 
-/* Top navbar (override del nav tipo sidebar del monolítico) */
-.navbar {
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
-    min-height: auto;
-    padding: 10px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+.tituloPeticion {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
-.navbar .brand {
-    color: #e60023;
-    font-weight: 700;
-    text-decoration: none;
+.autorPeticion {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
 }
 
-.navbar a {
-    color: #333;
-    text-decoration: none;
-    margin-right: 12px;
+.textoPeticion {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
 }
 
-.navbar .right a,
-.navbar .right button {
-    margin-left: 12px
+.sticky-sidebar {
+  position: sticky !important;
+  top: 100px;
 }
 
-/* Cards y mini utilidades */
-.card {
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .04)
+.card-text {
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
-.thumb {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 10px
+.card-title {
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
-.info {
-    background: #eef7ff;
-    border: 1px solid #cbe3ff;
-    color: #124;
-    padding: 8px;
-    border-radius: 6px
+form label {
+  font-size: 1rem;
+  color: #333;
 }
 
-.error {
-    color: #b00020;
-    background: #fdecee;
-    border: 1px solid #facfd3;
-    padding: 10px;
-    border-radius: 6px
+form input,
+form textarea,
+form select {
+  font-size: 0.95rem;
+}
+
+form button {
+  font-weight: 600;
 }

@@ -11,20 +11,33 @@ import { PeticionService } from '../peticion-service';
   styleUrls: ['./mine.css']
 })
 export class MineComponent {
-  private service = inject(PeticionService);
+  public service = inject(PeticionService);
 
-  cargando = signal(true);
-  peticiones = signal<any[]>([]);
-  errorMsg = signal<string | null>(null);
+  public cargando = signal(true);
+  public peticiones = signal<any[]>([]);
+  public errorMsg = signal<string | null>(null);
 
   ngOnInit(): void {
     this.service.listMine().subscribe({
-      next: (list) => { this.peticiones.set(list); this.cargando.set(false); },
-      error: () => { this.errorMsg.set('No se pudieron cargar tus peticiones'); this.cargando.set(false); }
+      next: (list) => {
+        this.peticiones.set(list);
+        this.cargando.set(false);
+      },
+      error: () => {
+        this.errorMsg.set('No se pudieron cargar tus peticiones');
+        this.cargando.set(false);
+      }
     });
   }
 
   getImg(p: any) {
-    return p?.files?.[0]?.path ? `http://localhost:8000/storage/${p.files[0].path}` : 'assets/no-image.png';
+    if (p.files?.length > 0) {
+      // Aseguramos que la URL empiece con /storage
+      const path = p.files[0].path.startsWith('/storage')
+        ? p.files[0].path
+        : `/storage/${p.files[0].path}`;
+      return `http://localhost:8000${path}`;
+    }
+    return 'assets/no-image.png'; // fallback local
   }
 }

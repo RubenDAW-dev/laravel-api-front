@@ -62,10 +62,15 @@ export class ListComponent {
     });
   }
 
-  getImg(p: any) {
-    if (p.files?.length > 0) {
-      return `http://localhost:8000/storage/${p.files[0].path}`;
-    }
-    return 'assets/no-image.png';
+getImg(p: any) {
+  if (p.files?.length > 0) {
+    // Aseguramos que la URL empiece con /storage
+    const path = p.files[0].path.startsWith('/storage') 
+      ? p.files[0].path 
+      : `/storage/${p.files[0].path}`;
+    return `http://localhost:8000${path}`;
   }
+  return 'assets/no-image.png'; // fallback local
+}
+
 }
