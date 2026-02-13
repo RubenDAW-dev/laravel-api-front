@@ -30,4 +30,14 @@ export class HomeComponent {
     }
   }
 
+  getImg(petition: any): string {
+  const path = petition?.files?.[0]?.path;
+  if (path) {
+    const finalPath = path.startsWith('/storage') ? path : `/storage/${path}`;
+    return `http://localhost:8000${finalPath}`;
+  }
+  return 'assets/default.jpg';
+}
+
+
 }
