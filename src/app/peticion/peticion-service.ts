@@ -8,6 +8,10 @@ import { map, tap } from 'rxjs';
 export class PeticionService {
 
   private api = 'http://localhost:8000/api/peticiones';
+  private baseApi = 'http://localhost:8000/api';
+
+  private _categorias = signal<any[]>([]);
+  categorias = this._categorias.asReadonly();
 
   private _peticiones = signal<any[]>([]);
   peticiones = this._peticiones.asReadonly();
@@ -85,7 +89,12 @@ export class PeticionService {
     return this.http.post<any>(`${this.api}/firmar/${id}`, {});
   }
   
-  // src/app/peticion/peticion-service.ts
+  fetchCategorias() {
+    return this.http.get<any>(`${this.baseApi}/categorias`).pipe(
+      tap(res => this._categorias.set(res.data ?? []))
+    );
+  }
+
   listMine() {
     return this.http.get<any>('http://localhost:8000/api/mispeticiones')
       .pipe(map(res => res.data ?? []));

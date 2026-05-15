@@ -105,4 +105,8 @@ loadUserIfNeeded() {
   getAccessToken() {
     return localStorage.getItem('access_token');
   }
+
+  isAdmin(): boolean {
+    return this.currentUser()?.role === 'admin';
+  }
 }

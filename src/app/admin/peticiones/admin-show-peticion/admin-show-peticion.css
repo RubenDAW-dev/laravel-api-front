@@ -1,0 +1,114 @@
+.admin-section { max-width: 860px; }
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #6366f1;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover { text-decoration: underline; }
+
+.loading, .error { padding: 24px; text-align: center; color: #64748b; }
+.error { color: #ef4444; }
+
+.detail-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 32px;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.detail-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px;
+}
+
+.estado {
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.estado-activa   { background: #dcfce7; color: #16a34a; }
+.estado-cerrada  { background: #fee2e2; color: #dc2626; }
+.estado-pendiente { background: #fef9c3; color: #b45309; }
+
+.header-actions { display: flex; gap: 10px; flex-shrink: 0; }
+
+.btn-edit, .btn-delete {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: opacity 0.15s;
+}
+
+.btn-edit   { background: #fef3c7; color: #b45309; }
+.btn-delete { background: #fee2e2; color: #dc2626; }
+.btn-edit:hover, .btn-delete:hover { opacity: 0.8; }
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.meta-item { display: flex; flex-direction: column; gap: 4px; }
+
+.meta-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.descripcion h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.descripcion p {
+  color: #475569;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.files-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 24px 0 12px;
+}
+
+.files-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.file-thumb {
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}

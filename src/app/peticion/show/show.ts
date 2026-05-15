@@ -40,9 +40,11 @@ export class ShowComponent {
     });
   }
 
-  getImg(): string {
-    const path = this.peticion()?.files?.[0]?.path;
-    return path ? `http://localhost:8000/storage/${path}` : 'assets/no-image.png';
+  getFileUrl(file: any): string {
+    const path: string = file?.path ?? '';
+    if (!path) return 'assets/no-image.png';
+    const clean = path.startsWith('/storage') ? path : `/storage/${path}`;
+    return `http://localhost:8000${clean}`;
   }
 
   esDueno(): boolean {

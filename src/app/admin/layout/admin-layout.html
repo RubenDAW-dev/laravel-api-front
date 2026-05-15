@@ -1,0 +1,23 @@
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">⚡</span>
+      <span>Admin Panel</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a routerLink="/admin/peticiones" routerLinkActive="active">
+        📋 Peticiones
+      </a>
+      <a routerLink="/admin/users" routerLinkActive="active">
+        👥 Usuarios
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button (click)="logout()">🚪 Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <router-outlet></router-outlet>
+  </main>
+</div>

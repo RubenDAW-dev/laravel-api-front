@@ -1,0 +1,47 @@
+<div class="admin-section">
+  <div class="section-header">
+    <h1>Usuarios</h1>
+    <span class="badge">{{ users().length }}</span>
+  </div>
+
+  @if (cargando()) {
+    <div class="loading">Cargando usuarios...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Peticiones</th>
+            <th>Firmas</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of users(); track u.id) {
+            <tr>
+              <td>{{ u.id }}</td>
+              <td>{{ u.name }}</td>
+              <td>{{ u.email }}</td>
+              <td>
+                <span class="rol" [class]="'rol-' + u.role">{{ u.role }}</span>
+              </td>
+              <td>{{ u.peticiones_count ?? 0 }}</td>
+              <td>{{ u.firmas_count ?? 0 }}</td>
+              <td class="actions">
+                <a [routerLink]="['/admin/users', u.id]" class="btn-view">Ver</a>
+                <a [routerLink]="['/admin/users', u.id, 'edit']" class="btn-edit">Editar</a>
+                <button (click)="eliminar(u.id)" class="btn-delete">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,8 +1,9 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./shared/navbar/navbar";
-import { AuthService } from './auth/auth-service';
 import { FooterComponent } from "./shared/footer/footer";
+import { AuthService } from './auth/auth-service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +14,18 @@ import { FooterComponent } from "./shared/footer/footer";
 export class App implements OnInit {
   protected readonly title = signal('myfrontend');
 
-  
   private auth = inject(AuthService);
+  private router = inject(Router);
+
+  isAdminRoute = signal(false);
 
   ngOnInit(): void {
     this.auth.loadUserIfNeeded();
-  }
 
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe((e: NavigationEnd) => {
+        this.isAdminRoute.set(e.urlAfterRedirects.startsWith('/admin'));
+      });
+  }
 }

@@ -1,0 +1,47 @@
+<div class="admin-section">
+  <div class="section-header">
+    <h1>Peticiones</h1>
+    <span class="badge">{{ peticiones().length }}</span>
+  </div>
+
+  @if (cargando()) {
+    <div class="loading">Cargando peticiones...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoría</th>
+            <th>Firmas</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of peticiones(); track p.id) {
+            <tr>
+              <td>{{ p.id }}</td>
+              <td class="titulo-col">{{ p.titulo }}</td>
+              <td>{{ p.user?.name ?? '—' }}</td>
+              <td>{{ p.categoria?.nombre ?? '—' }}</td>
+              <td>{{ p.firmas_count ?? 0 }}</td>
+              <td>
+                <span class="estado" [class]="'estado-' + p.estado">{{ p.estado ?? 'activa' }}</span>
+              </td>
+              <td class="actions">
+                <a [routerLink]="['/admin/peticiones', p.id]" class="btn-view">Ver</a>
+                <a [routerLink]="['/admin/peticiones', p.id, 'edit']" class="btn-edit">Editar</a>
+                <button (click)="eliminar(p.id)" class="btn-delete">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

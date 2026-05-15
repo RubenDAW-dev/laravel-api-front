@@ -15,14 +15,13 @@ export class CreateComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private service = inject(PeticionService);
-  
 
   loading = signal(false);
   errorMsg = signal<string | null>(null);
 
-  // Vista previa de imagen
-  previewUrl = signal<string>('assets/no-image.png');
-  fileToUpload: File | null = null;
+  // Multiple files
+  filesToUpload: File[] = [];
+  previewUrls = signal<string[]>([]);
 
   form = this.fb.group({
     titulo: ['', [Validators.required]],
@@ -33,22 +32,29 @@ export class CreateComponent {
 
   onFileSelected(ev: Event) {
     const input = ev.target as HTMLInputElement;
-    const file = input.files?.[0];
-    if (!file) return;
+    if (!input.files || input.files.length === 0) return;
 
-    this.fileToUpload = file;
+    this.filesToUpload = Array.from(input.files);
 
-    // Preview
-    const reader = new FileReader();
-    reader.onload = () => this.previewUrl.set(reader.result as string);
-    reader.readAsDataURL(file);
+    // Generate previews for all selected files
+    const previews: string[] = [];
+    this.filesToUpload.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        previews.push(reader.result as string);
+        if (previews.length === this.filesToUpload.length) {
+          this.previewUrls.set([...previews]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   submit() {
     this.errorMsg.set(null);
 
-    if (this.form.invalid || !this.fileToUpload) {
-      this.errorMsg.set('Rellena todos los campos y selecciona una imagen.');
+    if (this.form.invalid || this.filesToUpload.length === 0) {
+      this.errorMsg.set('Rellena todos los campos y selecciona al menos una imagen.');
       return;
     }
 
@@ -57,14 +63,15 @@ export class CreateComponent {
     fd.append('descripcion', this.form.value.descripcion!);
     fd.append('destinatario', this.form.value.destinatario!);
     fd.append('categoria_id', this.form.value.categoria_id!);
-    fd.append('file', this.fileToUpload);
+
+    // Append all files as files[]
+    this.filesToUpload.forEach(file => fd.append('files[]', file));
 
     this.loading.set(true);
 
     this.service.create(fd).subscribe({
       next: () => this.router.navigate(['/peticiones']),
-      error: (err) => {
-        // 422 validación del backend: mostrar el primer error legible
+      error: (err: any) => {
         const msg =
           err?.error?.message ||
           Object.values(err?.error?.errors || {})?.flat()?.[0] ||

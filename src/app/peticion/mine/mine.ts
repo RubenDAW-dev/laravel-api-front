@@ -30,14 +30,14 @@ export class MineComponent {
     });
   }
 
-  getImg(p: any) {
+  getImg(p: any): string {
     if (p.files?.length > 0) {
-      // Aseguramos que la URL empiece con /storage
-      const path = p.files[0].path.startsWith('/storage')
-        ? p.files[0].path
-        : `/storage/${p.files[0].path}`;
+      const lastFile = p.files[p.files.length - 1];
+      const path = lastFile.path.startsWith('/storage')
+        ? lastFile.path
+        : `/storage/${lastFile.path}`;
       return `http://localhost:8000${path}`;
     }
-    return 'assets/no-image.png'; // fallback local
+    return 'assets/no-image.png';
   }
 }

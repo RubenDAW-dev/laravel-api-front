@@ -1,0 +1,39 @@
+<div class="admin-section">
+  <a routerLink="/admin/users" class="back-link">← Volver a usuarios</a>
+
+  @if (cargando()) {
+    <div class="loading">Cargando...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else if (user()) {
+    <div class="detail-card">
+      <div class="detail-header">
+        <div class="avatar">{{ user().name[0].toUpperCase() }}</div>
+        <div class="user-info">
+          <h1>{{ user().name }}</h1>
+          <span class="email">{{ user().email }}</span>
+          <span class="rol" [class]="'rol-' + user().role">{{ user().role }}</span>
+        </div>
+        <div class="header-actions">
+          <a [routerLink]="['/admin/users', user().id, 'edit']" class="btn-edit">Editar</a>
+          <button (click)="eliminar()" class="btn-delete">Eliminar</button>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-value">{{ user().peticiones_count ?? 0 }}</span>
+          <span class="stat-label">Peticiones creadas</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">{{ user().firmas_count ?? 0 }}</span>
+          <span class="stat-label">Peticiones firmadas</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">{{ user().id }}</span>
+          <span class="stat-label">ID de usuario</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,11 +1,9 @@
 <section class="max-w-3xl mx-auto px-6 py-12 bg-white rounded shadow">
 
-  <!-- Loading -->
   @if (cargando()) {
     <p class="text-center text-gray-500">Cargando…</p>
   } @else {
 
-    <!-- Error -->
     @if (error(); as err) {
       <div class="text-center text-red-600 mb-4">{{ err }}</div>
     } @else {
@@ -14,9 +12,19 @@
 
         <article class="flex flex-col items-center text-center">
 
-          <!-- Imagen circular -->
-          <img [src]="getImg()" alt="Imagen de la petición"
-               class="w-40 h-40 object-cover rounded-full border border-gray-200 shadow-sm mb-6" />
+          <!-- Galería de imágenes -->
+          @if (p.files && p.files.length > 0) {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6 w-full">
+              @for (file of p.files; track file.id) {
+                <img [src]="getFileUrl(file)"
+                     alt="Imagen de la petición"
+                     class="w-full h-52 object-cover rounded-lg border border-gray-200 shadow-sm" />
+              }
+            </div>
+          } @else {
+            <img src="assets/no-image.png" alt="Sin imagen"
+                 class="w-40 h-40 object-cover rounded-full border border-gray-200 shadow-sm mb-6" />
+          }
 
           <!-- Título -->
           <h2 class="text-3xl font-bold text-gray-800 mb-4">{{ p.titulo }}</h2>
@@ -59,7 +67,8 @@
                  class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:-translate-y-0.5">
                 Editar
               </a>
-              <button type="button" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:-translate-y-0.5"
+              <button type="button"
+                      class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded transition-transform transform hover:-translate-y-0.5"
                       (click)="borrar()">
                 Borrar
               </button>
@@ -67,11 +76,9 @@
           </div>
 
           <!-- Volver -->
-          <div>
-            <a routerLink="/peticiones" class="text-gray-600 hover:text-gray-800 underline">
-              ← Volver al listado
-            </a>
-          </div>
+          <a routerLink="/peticiones" class="text-gray-600 hover:text-gray-800 underline">
+            ← Volver al listado
+          </a>
 
         </article>
 
