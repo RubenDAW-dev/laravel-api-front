@@ -22,7 +22,6 @@ export class ShowComponent {
   cargando = signal<boolean>(true);
   error = signal<string | null>(null);
 
-  // UX firmar
   firmando = signal<boolean>(false);
   yaFirmada = signal<boolean>(false);
   toast = signal<string | null>(null);

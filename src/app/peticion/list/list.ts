@@ -18,11 +18,9 @@ export class ListComponent {
 
   cargando = signal<boolean>(true);
 
-  // Filter state
   estadoFiltro = signal<string>('todas');
   categoriaFiltro = signal<string>('todas');
 
-  // Pagination state
   paginaActual = signal<number>(1);
   readonly itemsPorPagina = 6;
 
@@ -40,7 +38,6 @@ export class ListComponent {
     this.paginaActual.set(1);
   }
 
-  // Step 1: filter by search term (from URL query param)
   busqueda = signal<string>('');
 
   peticionesBuscadas = computed(() => {
@@ -53,7 +50,6 @@ export class ListComponent {
     );
   });
 
-  // Step 2: filter by estado de firmas
   peticionesPorEstado = computed(() => {
     const lista = this.peticionesBuscadas();
     const estado = this.estadoFiltro();
@@ -62,10 +58,9 @@ export class ListComponent {
     return lista;
   });
 
-  // Categorías desde la BD
   categoriasDisponibles = this.service.categorias;
 
-  // Step 3: filter by category
+
   peticionesFiltradas = computed(() => {
     const lista = this.peticionesPorEstado();
     const cat = this.categoriaFiltro();
@@ -73,7 +68,6 @@ export class ListComponent {
     return lista.filter((p: any) => String(p.categoria_id) === cat);
   });
 
-  // Pagination computed
   totalPaginas = computed(() =>
     Math.max(1, Math.ceil(this.peticionesFiltradas().length / this.itemsPorPagina))
   );

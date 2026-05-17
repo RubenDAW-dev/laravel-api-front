@@ -19,7 +19,6 @@ export class CreateComponent {
   loading = signal(false);
   errorMsg = signal<string | null>(null);
 
-  // Multiple files
   filesToUpload: File[] = [];
   previewUrls = signal<string[]>([]);
 
@@ -36,7 +35,6 @@ export class CreateComponent {
 
     this.filesToUpload = Array.from(input.files);
 
-    // Generate previews for all selected files
     const previews: string[] = [];
     this.filesToUpload.forEach(file => {
       const reader = new FileReader();

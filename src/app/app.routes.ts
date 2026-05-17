@@ -20,6 +20,8 @@ import { AdminEditPeticionComponent } from './admin/peticiones/admin-edit-petici
 import { AdminUsersListComponent } from './admin/users/admin-users-list/admin-users-list';
 import { AdminShowUserComponent } from './admin/users/admin-show-user/admin-show-user';
 import { AdminEditUserComponent } from './admin/users/admin-edit-user/admin-edit-user';
+import { AdminCreateUserComponent } from './admin/users/admin-create-user/admin-create-user';
+import { AdminCreatePeticionComponent } from './admin/peticiones/admin-create-peticion/admin-create-peticion';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -43,9 +45,11 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'peticiones', pathMatch: 'full' },
       { path: 'peticiones', component: AdminPeticionesListComponent },
+      { path: 'peticiones/create', component: AdminCreatePeticionComponent },
       { path: 'peticiones/:id', component: AdminShowPeticionComponent },
       { path: 'peticiones/:id/edit', component: AdminEditPeticionComponent },
       { path: 'users', component: AdminUsersListComponent },
+      { path: 'users/create', component: AdminCreateUserComponent },
       { path: 'users/:id', component: AdminShowUserComponent },
       { path: 'users/:id/edit', component: AdminEditUserComponent },
     ]

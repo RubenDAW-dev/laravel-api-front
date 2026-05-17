@@ -10,7 +10,6 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
 
-  // 🚀 SIGNALS — necesarios para el PDF
   isLoggedIn = signal<boolean>(!!localStorage.getItem('access_token'));
   currentUser = signal<User | null>(
     JSON.parse(localStorage.getItem('user_data') || 'null')
@@ -18,32 +17,24 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  // -------------------
-  // LOGIN
-  // -------------------
+
   login(credentials: { email: string; password: string }) {
     return this.http.post<LoginResponse>(`${this.api}/login`, credentials)
       .pipe(tap(res => this.storeTokens(res)));
   }
 
-  // -------------------
-  // REGISTER
-  // -------------------
+  
   register(data: { name: string; email: string; password: string }) {
     return this.http.post(`${this.api}/register`, data);
   }
 
-  // -------------------
-  // LOGOUT
-  // -------------------
+
   logout() {
     return this.http.post(`${this.api}/logout`, {})
       .pipe(finalize(() => this.clearTokens()));
   }
 
-  // -------------------
-  // PROFILE (me)
-  // -------------------
+
 getProfile() {
   return this.http.get<{ success: boolean; data: User; message: string }>(`${this.api}/me`)
     .pipe(
@@ -56,9 +47,7 @@ getProfile() {
     );
 }
 
-  // -------------------
-  // REFRESH TOKEN
-  // -------------------
+
   refreshToken() {
     return this.http.post<{ access_token: string }>(`${this.api}/refresh`, {})
       .pipe(tap(res => {
@@ -66,9 +55,7 @@ getProfile() {
       }));
   }
 
-  // -------------------
-  // HELPERS
-  // -------------------
+
   isAuthenticated() {
     return !!localStorage.getItem('access_token');
   }

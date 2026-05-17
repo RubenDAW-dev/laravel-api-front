@@ -7,19 +7,16 @@ export class AdminService {
 
   private api = 'http://localhost:8000/api/admin';
 
-  // --- Peticiones store ---
   private _peticiones = signal<any[]>([]);
   peticiones = this._peticiones.asReadonly();
   private peticionesLoaded = false;
 
-  // --- Users store ---
   private _users = signal<any[]>([]);
   users = this._users.asReadonly();
   private usersLoaded = false;
 
   constructor(private http: HttpClient) {}
 
-  // ─── Peticiones ───────────────────────────────────────
 
   fetchPeticiones(force = false) {
     if (this.peticionesLoaded && !force) {
@@ -36,6 +33,14 @@ export class AdminService {
   getPeticion(id: number) {
     return this.http.get<any>(`${this.api}/peticiones/${id}`).pipe(
       map(res => res.data)
+    );
+  }
+
+  createPeticion(formData: FormData) {
+    return this.http.post<any>(`${this.api}/peticiones`, formData).pipe(
+      tap(res => {
+        this._peticiones.update(list => [res.data, ...list]);
+      })
     );
   }
 
@@ -57,7 +62,6 @@ export class AdminService {
     );
   }
 
-  // ─── Users ────────────────────────────────────────────
 
   fetchUsers(force = false) {
     if (this.usersLoaded && !force) {
@@ -74,6 +78,14 @@ export class AdminService {
   getUser(id: number) {
     return this.http.get<any>(`${this.api}/users/${id}`).pipe(
       map(res => res.data)
+    );
+  }
+
+  createUser(data: any) {
+    return this.http.post<any>(`${this.api}/users`, data).pipe(
+      tap(res => {
+        this._users.update(list => [...list, res.data]);
+      })
     );
   }
 
