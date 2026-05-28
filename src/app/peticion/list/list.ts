@@ -40,6 +40,20 @@ export class ListComponent {
 
   busqueda = signal<string>('');
 
+  get busquedaBind() { return this.busqueda(); }
+  set busquedaBind(v: string) {
+    this.busqueda.set(v);
+    this.paginaActual.set(1);
+    // Si la categoría activa ya no tiene peticiones con la nueva búsqueda, la reseteamos
+    const catActual = this.categoriaFiltro();
+    if (catActual !== 'todas') {
+      const disponibles = this.categoriasConPeticiones();
+      if (!disponibles.some((c: any) => String(c.id) === catActual)) {
+        this.categoriaFiltro.set('todas');
+      }
+    }
+  }
+
   peticionesBuscadas = computed(() => {
     const q = this.busqueda().toLowerCase();
     const todas = this.service.peticiones();
@@ -60,6 +74,13 @@ export class ListComponent {
 
   categoriasDisponibles = this.service.categorias;
 
+  // Solo categorías que tienen peticiones tras aplicar el filtro de estado y búsqueda
+  categoriasConPeticiones = computed(() => {
+    const lista = this.peticionesPorEstado();
+    const todasCats = this.categoriasDisponibles();
+    const idsPresentes = new Set(lista.map((p: any) => String(p.categoria_id)));
+    return todasCats.filter((cat: any) => idsPresentes.has(String(cat.id)));
+  });
 
   peticionesFiltradas = computed(() => {
     const lista = this.peticionesPorEstado();
